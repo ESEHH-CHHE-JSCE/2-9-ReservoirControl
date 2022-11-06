@@ -1,0 +1,5 @@
+24     ! maxt: maximum time step [hours]
+1      ! dt : calculation time step [sec]
+50     ! maxhs: num. of rows in H-S table
+12.56  ! ca : outflow parameter [m-s]
+0.4    ! a : cross section area [m2]
