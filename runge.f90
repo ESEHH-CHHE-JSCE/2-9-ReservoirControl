@@ -53,12 +53,12 @@ maxtt = 3600 / dt
 do t = 1, maxt
  spre = s(t-1)
  do tt = 1, maxtt
-  in = inflow(t) * dt
+  in = inflow(t)
   k0 = f(in, spre)
-  k1 = f(in, spre + k0 / 2.0)
-  k2 = f(in, spre + k1 / 2.0)
-  k3 = f(in, spre + k2)
-  spos = spre + (k0 + 2 * k1 + 2 * k2 + k3) / 6.
+  k1 = f(in, spre + k0 / 2.0 * dt)
+  k2 = f(in, spre + k1 / 2.0 * dt)
+  k3 = f(in, spre + k2 * dt)
+  spos = spre + dt * (k0 + 2 * k1 + 2 * k2 + k3) / 6.
   if(spos .lt. 0) spos = 0.
   spre = spos
  enddo
@@ -69,8 +69,8 @@ enddo
 open(30, file = "out.txt")
 write(*,'("    t         i(t)         s(t)         h(t)         q(t)")')
 do t = 1, maxt
- write(30, '(i5, 4f13.3)') t, inflow(t), s(t), h(s(t)), q(s(t)) / dt
- write(*, '(i5, 4f13.3)') t, inflow(t), s(t), h(s(t)), q(s(t)) / dt
+ write(30, '(i5, 4f13.3)') t, inflow(t), s(t), h(s(t)), q(s(t))
+ write(*, '(i5, 4f13.3)') t, inflow(t), s(t), h(s(t)), q(s(t))
 enddo
 close(30)
 
@@ -93,7 +93,7 @@ implicit none
 real s, q, h, hh
 hh = h(s)
 if(hh.lt.0) hh = 0.
-q = a * Ca * sqrt(2.0 * 9.81 * hh) * dt
+q = a * Ca * sqrt(2.0 * 9.81 * hh)
 return
 end
 
